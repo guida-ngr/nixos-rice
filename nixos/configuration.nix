@@ -13,7 +13,6 @@
   services.xserver.xkb.layout = "us";
   services.xserver.windowManager.i3.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
-  services.picom.enable = { enable = true; configFile = "/home/guidxa/.config/picom/picom.conf"; };
   services.pipewire = { enable = true; alsa.enable = true; pulse.enable = true; };
 
   networking.hostName = "nixbtw";
@@ -31,6 +30,7 @@
 
   programs.firefox.enable = true;
   environment.systemPackages = with pkgs; [
+    pkgs.picom
     kitty
     neovim
     git
@@ -42,9 +42,12 @@
     gnome-themes-extra
     arc-theme
     glib
+    gtk3
+    pkg-config
+    rustup
   ];
 
-qt.enable = true;
-qt.platformTheme = "gtk2";
-qt.style = "adwaita-dark";
+  qt.enable = true;
+  qt.platformTheme = "gtk2";
+  qt.style = "adwaita-dark";
 }
