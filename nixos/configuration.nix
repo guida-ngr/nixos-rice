@@ -34,17 +34,26 @@
     kitty
     neovim
     git
+  ] ++ [
     bash
     jq
     coreutils
-    socat
     usbutils
+  ] ++ [
     gnome-themes-extra
     arc-theme
-    glib
-    gtk3
     pkg-config
+  ] ++ [
     rustup
+    gtk3
+    gtk-layer-shell
+    pango
+    gdk-pixbuf2
+    libdbusmenu-gtk3
+    cairo
+    glib2
+    glibc
+    gcc-libs
   ];
 
   qt.enable = true;
