@@ -39,5 +39,12 @@
     coreutils
     socat
     usbutils
+    gnome-themes-extra
+    arc-theme
+    glib
   ];
+
+qt.enable = true;
+qt.platformTheme = "gtk2";
+qt.style = "adwaita-dark";
 }
