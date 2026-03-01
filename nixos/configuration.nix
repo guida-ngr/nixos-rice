@@ -34,6 +34,7 @@
     kitty
     neovim
     git
+    autotiling
   ] ++ [
     bash
     jq
