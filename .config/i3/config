@@ -6,8 +6,10 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 exec --no-startup-id xset -b
+exec --no-startup-id autotiling
 exec_always --no-startup-id picom -b
-exec_always autotiling
+exec_always --no-startup-id eww daemon
+exec_always --no-startup-id eww open hello
 exec --no-startup-id nitrogen --restore
 
 #  ws  #
@@ -38,7 +40,6 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 
 #  window  #
 # gaps
-gaps top 39
 gaps inner 9
 # border
 default_border none
@@ -87,16 +88,17 @@ for_window [class="Blueman-manager"] floating enable, resize set 450 250, move p
 #  keybinds  #
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "you sure?"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+q kill
 bindsym $mod+Shift+Return exec kitty --class "kitty-floating"
 bindsym $mod+Return exec kitty
 
 bindsym $mod+r exec --no-startup-id kitty -e nvim ~/.config
-bindsym $mod+F1 exec --no-startup-id kitty -e nvim ~/.config/i3/config
-bindsym $mod+F2 exec --no-startup-id kitty -e nvim ~/.config/picom/picom.conf
-bindsym $mod+F3 exec --no-startup-id kitty -e nvim ~/.config/polybar/config.ini
-bindsym $mod+F4 exec --no-startup-id kitty -e nvim ~/.config/nvim
+
+bindsym $mod+F1 exec --no-startup-id kitty -e sudo nvim /etc/nixos/configuration.nix
+bindsym $mod+F2 exec --no-startup-id kitty -e nvim ~/.config/i3/config
+bindsym $mod+F3 exec --no-startup-id kitty -e nvim ~/.config/picom/picom.conf
+bindsym $mod+F4 exec --no-startup-id kitty -e nvim ~/.config/polybar/config.ini
 bindsym $mod+F5 exec --no-startup-id kitty -e nvim ~/.bashrc
 
 bindsym $mod+s exec --no-startup-id dmenu_run -i -b
