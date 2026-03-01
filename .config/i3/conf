@@ -1,0 +1,118 @@
+set $mod Mod4
+font pango:Open Sans 8
+
+#  auto start  #
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+exec --no-startup-id xset -b
+exec_always autotiling
+exec_always --no-startup-id picom -b
+exec --no-startup-id nitrogen --restore
+
+#  ws  #
+# set ws
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+# switch ws
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+# window -> ws
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+
+#  window  #
+# gaps
+gaps top 39
+gaps inner 9
+# border
+default_border none
+# resize window
+bindsym $mod+Shift+z mode "resize"
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Return mode "default"
+        bindsym $mod+Shift+z mode "default"
+}
+# focus window
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+# move windown
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+# change container layout (stacked, tabbed, split)
+bindsym $mod+z layout stacking
+bindsym $mod+x layout tabbed
+bindsym $mod+c layout toggle split
+# enter fullscreen mode for the focused container
+bindsym $mod+F11 fullscreen toggle
+# float
+bindsym $mod+space floating toggle
+bindsym $mod+Shift+space focus mode_toggle
+# drag window
+floating_modifier $mod
+# drag & drop tiling window
+tiling_drag modifier titlebar
+
+#  no tiling  #
+for_window [instance="kitty-floating"] floating enable, resize set 600 400, move to position center
+for_window [class="Nitrogen"] floating enable, resize set 600 400, move to position center
+for_window [class="mpv"] floating enable, resize set 600 400, move to position center
+for_window [class="dragon"] floating enable, resize set 810 540, move to position center
+for_window [class="pavucontrol"] floating enable, resize set 450 250, move position 1460 49
+for_window [class="Blueman-manager"] floating enable, resize set 450 250, move position 1374 49
+
+#  keybinds  #
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "you sure?"
+bindsym $mod+q kill
+bindsym $mod+Shift+Return exec kitty --class "kitty-floating"
+bindsym $mod+Return exec kitty
+
+bindsym $mod+r exec --no-startup-id kitty -e nvim ~/.config
+bindsym $mod+F1 exec --no-startup-id kitty -e nvim ~/.config/i3/config
+bindsym $mod+F2 exec --no-startup-id kitty -e nvim ~/.config/picom/picom.conf
+bindsym $mod+F3 exec --no-startup-id kitty -e nvim ~/.config/polybar/config.ini
+bindsym $mod+F4 exec --no-startup-id kitty -e nvim ~/.config/nvim
+bindsym $mod+F5 exec --no-startup-id kitty -e nvim ~/.bashrc
+
+bindsym $mod+s exec --no-startup-id dmenu_run -i -b
+bindsym $mod+f exec firefox
+bindsym $mod+w exec nitrogen
+bindsym $mod+d exec --no-startup-id kitty -e ranger
+bindsym $mod+p exec peek
+bindsym $mod+Shift+s exec flameshot gui
+bindsym $mod+o exec obsidian
+
+# audio #
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+
+# layout bar #
+client.focused              #333333 #333333 #ffffff
+client.unfocused            #181818 #181818 #888888
