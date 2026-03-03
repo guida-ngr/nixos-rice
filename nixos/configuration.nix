@@ -25,26 +25,13 @@
   users.users.guidxa = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio"];
-    packages = with pkgs; [ tree eww nitrogen obsidian ];
-  };
-
-  programs.firefox.enable = true;
-  environment.systemPackages = with pkgs; [
-    pkgs.picom
-    kitty
-    neovim
-    git
+    packages = with pkgs;
+    [ # personal
     autotiling
-  ] ++ [
-    bash
-    jq
-    coreutils
-    usbutils
-  ] ++ [
-    gnome-themes-extra
-    arc-theme
-    pkg-config
-  ] ++ [
+    eww
+    nitrogen 
+    obsidian
+    ] ++ [ # eww dependencies
     rustup
     gtk3
     gtk-layer-shell
@@ -55,9 +42,26 @@
     glib
     glibc
     gcc
-  ];
+  ];};
 
-  qt.enable = true;
-  qt.platformTheme = "gtk2";
-  qt.style = "adwaita-dark";
+  programs.firefox.enable = true;
+  environment.systemPackages = with pkgs; 
+  [ # essencials
+    tree
+    pkgs.picom
+    kitty
+    neovim
+    git
+    coreutils
+    usbutils
+    unzip
+    bash
+    jq
+    pkg-config
+  ]
+fonts.packages = with pkgs;
+  [
+  open-sans
+  nerd-fonts.caskaydia-cove
+  ];
 }
