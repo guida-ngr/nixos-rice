@@ -2,15 +2,9 @@ set $mod Mod4
 font pango:Open Sans 8
 
 #  auto start  #
-exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
-exec --no-startup-id xset -b
 exec --no-startup-id autotiling
-exec_always --no-startup-id picom -b
-exec_always --no-startup-id eww daemon
-exec_always --no-startup-id eww open hello
-exec --no-startup-id nitrogen --restore
+exec_always --no-startup-id swww-daemon
 
 #  ws  #
 # set ws
@@ -43,10 +37,11 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 gaps inner 9
 # border
 default_border none
+corner_radius 5
 # resize window
 bindsym $mod+Shift+z mode "resize"
 mode "resize" {
-        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym l resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
@@ -74,39 +69,24 @@ bindsym $mod+space floating toggle
 bindsym $mod+Shift+space focus mode_toggle
 # drag window
 floating_modifier $mod
-# drag & drop tiling window
-tiling_drag modifier titlebar
-
-#  no tiling  #
-for_window [instance="kitty-floating"] floating enable, resize set 600 400, move to position center
-for_window [class="Nitrogen"] floating enable, resize set 600 400, move to position center
-for_window [class="mpv"] floating enable, resize set 600 400, move to position center
-for_window [class="dragon"] floating enable, resize set 810 540, move to position center
-for_window [class="pavucontrol"] floating enable, resize set 450 250, move position 1460 49
-for_window [class="Blueman-manager"] floating enable, resize set 450 250, move position 1374 49
 
 #  keybinds  #
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# sys
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'exit sway?' -B 'yeah' 'swaymsg exit'
 bindsym $mod+q kill
-bindsym $mod+Shift+Return exec kitty --class "kitty-floating"
+# rice
+bindsym $mod+r  exec kitty -e nvim ~/.config
+bindsym $mod+F1 exec kitty -e sudo nvim /etc/nixos/configuration.nix
+bindsym $mod+F2 exec kitty -e nvim ~/.config/sway/config
+bindsym $mod+F3 exec kitty -e nvim ~/.config/quickshell
+bindsym $mod+F5 exec kitty -e nvim ~/.bashrc
+# app
 bindsym $mod+Return exec kitty
-
-bindsym $mod+r exec --no-startup-id kitty -e nvim ~/.config
-
-bindsym $mod+F1 exec --no-startup-id kitty -e sudo nvim /etc/nixos/configuration.nix
-bindsym $mod+F2 exec --no-startup-id kitty -e nvim ~/.config/i3/config
-bindsym $mod+F3 exec --no-startup-id kitty -e nvim ~/.config/picom/picom.conf
-bindsym $mod+F4 exec --no-startup-id kitty -e nvim ~/.config/polybar/config.ini
-bindsym $mod+F5 exec --no-startup-id kitty -e nvim ~/.bashrc
-
-bindsym $mod+s exec --no-startup-id dmenu_run -i -b
+bindsym $mod+s exec wofi --show drun
+bindsym $mod+d exec kitty -e ranger
+bindsym $mod+p exec kooha
 bindsym $mod+f exec firefox
-bindsym $mod+w exec nitrogen
-bindsym $mod+d exec --no-startup-id kitty -e ranger
-bindsym $mod+p exec peek
-bindsym $mod+Shift+s exec flameshot gui
 bindsym $mod+o exec obsidian
 
 # audio #
