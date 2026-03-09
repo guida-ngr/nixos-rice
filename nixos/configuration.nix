@@ -2,7 +2,7 @@
 { imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = "25.11";
-  system.saveSystemConfiguration = true;
+  system.copySystemConfiguration = true;
   nixpkgs.config.allowUnfree = true;
 
   # boot/driver
@@ -10,7 +10,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
   hardware.graphics = { enable = true; enable32Bit = true; };
-  hardware.gpu.amd.updateMicrocode = true;
+  hardware.cpu.amd.updateMicrocode = true;
   # network
   networking.hostName = "nixbtw";
   networking.networkmanager.enable = true;
