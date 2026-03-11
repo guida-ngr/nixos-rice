@@ -1,9 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ...}:
 { imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = "25.11";
-  system.copySystemConfiguration = true;
   nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  xdg.portal.enable = true;
 
   # boot/driver
   boot.loader.systemd-boot.enable = true;
@@ -48,22 +49,20 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio" "networkmanager" ];
     packages = with pkgs; [
-      kitty
-      quickshell
       autotiling
-      wofi
-      swww
-      firefox
-      obsidian
-      ranger
+      kitty
+      wofi swww fastfetch btop
+      firefox obsidian sioyek
+      ranger kdePackages.dolphin
+      inputs.quickshell.packages.${pkgs.system}.default
     ] ++ [
-      unzip
-      wl-clipboard
-      kooha
-      grim
-      slurp
-      playerctl
       networkmanagerapplet
+      pulseaudio pavucontrol
+      unzip
+      vlc
+      kooha
+      wl-clipboard grim slurp
+      playerctl
     ];
   };
   # pkgs
@@ -90,15 +89,22 @@
       };
     };
   };
+  programs.spicetify =
+  let
+    spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  in
+  {
+    enable = true;
+    enabledExtensions = with spicePkgs.extensions; [ adblock shuffle hidePodcasts ];
+    theme = spicePkgs.themes.lucid;
+  };
+  services.dbus.enable = true;
+  qt.enable = true;
   environment.systemPackages = with pkgs; [
-    neovim
-    git
-    curl
-    jq
-    killall
-    tree
-    coreutils
-    usbutils
+    neovim git curl
+    jq killall tree
+    coreutils usbutils
+    xdg-desktop-portal-wlr xdg-desktop-portal-gtk
   ];
   # fonts
   fonts.packages = with pkgs; [
