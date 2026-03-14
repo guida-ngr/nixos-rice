@@ -2,6 +2,7 @@ set $mod Mod4
 font pango:Open Sans 8
 
 #  auto start  #
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec --no-startup-id nm-applet
 exec --no-startup-id autotiling
 exec_always --no-startup-id swww-daemon
@@ -35,8 +36,8 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 #  window  #
 # appearance
 default_border none
-gaps inner     9
-corner_radius  5
+gaps inner     10
+corner_radius  10
 blur           enable
 blur_passes    3
 blur_radius    5
@@ -88,6 +89,7 @@ bindsym $mod+r  exec kitty -e nvim ~/.config
 bindsym $mod+F1 exec kitty -e sudo nvim /etc/nixos/configuration.nix
 bindsym $mod+F2 exec kitty -e nvim ~/.config/sway/config
 bindsym $mod+F3 exec kitty -e nvim ~/.config/quickshell
+bindsym $mod+F4 exec kitty -e sudo nvim /etc/nixos/flake.nix
 bindsym $mod+F5 exec kitty -e nvim ~/.bashrc
 # app
 bindsym $mod+Return exec kitty
