@@ -4,8 +4,15 @@
   system.stateVersion = "25.11";
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  xdg.portal.enable = true;
-
+  services.dbus.enable = true;
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true; 
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = "*";
+  };
+  qt.enable = true;
+  
   # boot/driver
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -29,7 +36,17 @@
       swaylock
       swayidle
       xwayland
+      qt5.qtwayland
+      qt6.qtwayland
     ];
+  };
+  environment.sessionVariables = {
+    QT_QPA_PLATFORM = "wayland;xcb"; # Try Wayland first, fallback to X11
+    GDK_BACKEND = "wayland,x11";
+    SDL_VIDEODRIVER = "wayland";
+    CLUTTER_BACKEND = "wayland";
+    XDG_CURRENT_DESKTOP = "sway";
+    XDG_SESSION_TYPE = "wayland";
   };
   # DM
   services.displayManager.ly = {
@@ -98,13 +115,10 @@
     enabledExtensions = with spicePkgs.extensions; [ adblock shuffle hidePodcasts ];
     theme = spicePkgs.themes.lucid;
   };
-  services.dbus.enable = true;
-  qt.enable = true;
   environment.systemPackages = with pkgs; [
     neovim git curl
     jq killall tree
     coreutils usbutils
-    xdg-desktop-portal-wlr xdg-desktop-portal-gtk
   ];
   # fonts
   fonts.packages = with pkgs; [
