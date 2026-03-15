@@ -1,0 +1,18 @@
+alias rs='sudo nixos-rebuild switch --flake /etc/nixos#nixbtw'
+alias rsp='sudo nixos-rebuild switch --flake /etc/nixos#nixbtw -p'
+alias cg='sudo nix-collect-garbage -d'
+alias qc='quickshell'
+
+qs-color() {
+    local cor="$1"
+    local arquivo="$HOME/.config/quickshell/shell.qml"
+    cor="${cor#\#}"
+    # Validation
+    if [[ ! $cor =~ ^[A-Fa-f0-9]{6}$ ]] && [[ ! $cor =~ ^[A-Fa-f0-9]{3}$ ]]; then
+        echo "Erro: '$cor' não parece um hexadecimal válido."
+        return 1
+    fi
+    # Reset
+    sed -i "s/\(readonly property color accent: \)\"[^\"]*\"/\1\"#$cor\"/" "$arquivo"
+    echo "Cor alterada para #$cor"
+}
